@@ -1,0 +1,13 @@
+-Wall
+-Wextra
+-pedantic
+-fsanitize=address
+-fsanitize=undefined
+-fsanitize=leak
+-Idb/include
+-Idb/include/core
+-Idb/include/query
+-Idb/include/query/executor
+-Idb/include/query/parser
+-Idb/include/utils
+-Ilib/include
