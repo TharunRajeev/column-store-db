@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Check if a container using the 'cs165' image is already running
+CONTAINER_ID=$(docker ps --filter "ancestor=cs165" --format "{{.ID}}")
+
+# Path to the .bashrc file; use one in current directory if it exists, else create empty one
+if [ -f .bashrc ]; then
+  BASHRC_PATH=$(realpath .bashrc)
+else
+    touch .bashrc
+    BASHRC_PATH=$(realpath .bashrc)
+fi
+
+if [ -n "$CONTAINER_ID" ]; then
+  # Container is already running, so exec into it
+  echo "Attaching to the running container: $CONTAINER_ID"
+  docker exec -it $CONTAINER_ID bash
+else
+  # No container is running, so start a new one
+  echo "Starting a new container..."
+  docker run -it --platform linux/arm64 --rm \
+    -v $BASHRC_PATH:/root/.bashrc \
+    -v .:/cs165/ \
+    cs165 bash
+fi
